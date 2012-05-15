@@ -17,48 +17,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-root_group = node['ntp']['root_group']
-
-case node[:platform]
-when "ubuntu","debian"
-  package "ntpdate" do
-    action :install
-  end
-
-  template "/etc/default/ntpdate" do
-	source "default.ntpdate.erb"
-	owner "root"
-	group root_group
-	mode "0644"
-  end
-
-  package "ntp" do
-    action :install
-  end
-when "redhat","centos","fedora","scientific"
-  package "ntp" do
-    action :install
-  end
-  package "ntpdate" do
-    action :install
-  end unless node[:platform_version].to_i < 6
-end
-
-case node[:platform]
-when "freebsd"
-  directory node[:ntp][:statsdir] do
-    owner "root"
-    group root_group
-    mode "0755"
-  end
-when "redhat","centos","fedora","scientific"
-  # ntpstats dir doesn't exist on RHEL/CentOS
-else
-  directory node[:ntp][:statsdir] do
-    owner "ntp"
-    group "ntp"
-    mode "0755"
-  end
+node[:ntp][:packages].each do |ntp_pkg|
+  package ntp_pkg
 end
 
 service node[:ntp][:service] do
@@ -66,10 +26,18 @@ service node[:ntp][:service] do
   action [ :enable, :start ]
 end
 
+%w{ /var/lib/ntp /var/log/ntpstats }.each do |ntpdir|
+  directory ntpdir do
+    owner node[:ntp][:var_owner]
+    group node[:ntp][:var_group]
+    mode 0755
+  end
+end
+
 template "/etc/ntp.conf" do
   source "ntp.conf.erb"
-  owner "root"
-  group root_group
+  owner node[:ntp][:conf_owner] 
+  group node[:ntp][:conf_group]
   mode "0644"
   notifies :restart, resources(:service => node[:ntp][:service])
 end
