@@ -1,4 +1,4 @@
-require 'minitest/autorun'
+require File.join(File.dirname(__FILE__), %w{.. spec_helper})
 require 'chef/node'
 require 'chef/platform'
 
