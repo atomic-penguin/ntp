@@ -22,8 +22,9 @@
 # default attributes for all platforms
 default['ntp']['is_server'] = false
 default['ntp']['servers']   = ["0.pool.ntp.org", "1.pool.ntp.org"]
+default['ntp']['vardirs'] = %w{ /var/lib/ntp /var/log/ntp }
 default['ntp']['driftfile'] = "/var/lib/ntp/ntp.drift"
-default['ntp']['statsdir'] = "/var/log/ntpstats/"
+default['ntp']['statsdir'] = "/var/log/ntpstats"
 default['ntp']['conf_owner'] = "root"
 default['ntp']['conf_group'] = "root"
 default['ntp']['var_owner'] = "ntp"
@@ -41,11 +42,11 @@ when "redhat","centos","fedora","scientific","amazon","oracle"
   end
 when "freebsd"
   default['ntp']['service'] = "ntpd"
+  default['ntp']['vardirs'] = %w{ /var/db }
   default['ntp']['driftfile'] = "/var/db/ntpd.drift"
-  default['ntp']['statsdir'] = "/var/db/ntpstats/"
+  default['ntp']['statsdir'] = "/var/db/ntpstats"
   default['ntp']['packages'] = %w{ ntp }
-  default['ntp']['var_owner'] = "root"
-  default['ntp']['var_group'] = "group" 
+  default['ntp']['var_group'] = "wheel" 
 end
 
 default['ntp']['peers'] = []

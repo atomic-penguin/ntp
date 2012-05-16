@@ -26,7 +26,7 @@ service node['ntp']['service'] do
   action [ :enable, :start ]
 end
 
-%w{ /var/lib/ntp /var/log/ntpstats }.each do |ntpdir|
+node['ntp']['vardirs'].each do |ntpdir|
   directory ntpdir do
     owner node['ntp']['var_owner']
     group node['ntp']['var_group']

@@ -46,6 +46,37 @@ describe 'Ntp::Attributes::Default' do
 
     it "sets a packages list" do
       @node[attr_ns]['packages'].must_equal %w{ ntp ntpdate }
+      end
+  end
+
+  describe "for freebsd platform" do
+    let(:ohai_data) do
+      { :platform => "freebsd", :platform_version => '9.9' }
+    end
+
+    it "sets the service name to ntpd" do
+      @node[attr_ns]['service'].must_equal "ntpd"
+    end
+
+    it "sets the drift file to ntpd.drift" do
+      @node[attr_ns]['driftfile'].must_equal "/var/db/ntpd.drift"
+    end
+
+    it "sets the drift file to ntpd.drift" do
+      @node[attr_ns]['vardirs'].must_equal %w{ /var/db }
+    end
+
+
+    it "sets the drift file to ntpd.drift" do
+      @node[attr_ns]['statsdir'].must_equal "/var/db/ntpstats"
+    end
+
+    it "sets the ntp packages to ntp" do
+      @node[attr_ns]['packages'].must_equal %w{ ntp }
+    end
+
+    it "sets the var_group to wheel" do
+      @node[attr_ns]['var_group'].must_equal "wheel"
     end
   end
 end
