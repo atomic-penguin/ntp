@@ -29,5 +29,23 @@ describe 'Ntp::Attributes::Default' do
     it "sets the service name to ntp" do
       @node[attr_ns]['service'].must_equal "ntpd"
     end
+
+    it "sets a packages list" do
+      @node[attr_ns]['packages'].must_equal %w{ ntp }
+    end
+  end
+
+  describe "for centos 6 platform" do
+    let(:ohai_data) do
+      { :platform => "centos", :platform_version => '6.2' }
+    end
+
+    it "sets the service name to ntp" do
+      @node[attr_ns]['service'].must_equal "ntpd"
+    end
+
+    it "sets a packages list" do
+      @node[attr_ns]['packages'].must_equal %w{ ntp ntpdate }
+    end
   end
 end
