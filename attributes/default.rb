@@ -36,7 +36,7 @@ case platform
 when "redhat","centos","fedora","scientific","amazon","oracle"
   default['ntp']['service'] = "ntpd"
   default['ntp']['packages'] = %w{ ntp }
-  case node['node']['platform_version'].to_i
+  case node['ntp']['platform_version'].to_i
   when 6
     default['ntp']['packages'] = %w{ ntp ntpdate } 
   end
