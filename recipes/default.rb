@@ -17,13 +17,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-node['ntp']['packages'].each do |ntp_pkg|
-  package ntp_pkg
-end
-
-service node['ntp']['service'] do
-  supports :status => true, :restart => true
-  action [ :enable, :start ]
+node['ntp']['packages'].each do |ntppkg|
+  package ntppkg
 end
 
 node['ntp']['vardirs'].each do |ntpdir|
@@ -32,6 +27,11 @@ node['ntp']['vardirs'].each do |ntpdir|
     group node['ntp']['var_group']
     mode 0755
   end
+end
+
+service node['ntp']['service'] do
+  supports :status => true, :restart => true
+  action [ :enable, :start ]
 end
 
 template "/etc/ntp.conf" do
