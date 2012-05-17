@@ -1,5 +1,3 @@
-# NTP [![Build Status](https://secure.travis-ci.org/atomic-penguin/ntp.png?branch=master)](http://travis-ci.org/atomic-penguin/ntp)
-
 Description
 ===========
 
