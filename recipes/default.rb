@@ -41,3 +41,10 @@ template "/etc/ntp.conf" do
   mode "0644"
   notifies :restart, resources(:service => node['ntp']['service'])
 end
+
+template "/etc/default/ntpdate" do
+  owner node['ntp']['conf_owner']
+  group node['ntp']['conf_grup']
+  mode "0644"
+  only_if { node['platform'] == "debian" || node['platform'] == "ubuntu" }
+end

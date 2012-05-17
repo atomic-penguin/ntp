@@ -16,7 +16,7 @@ when "ubuntu","debian"
     group node['ntp']['conf_group']
     mode "0644"
     variables(
-      :disable => TRUE,
+      :disable => TRUE
     )
   end
 end

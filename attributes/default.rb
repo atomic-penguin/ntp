@@ -21,7 +21,7 @@
 
 # default attributes for all platforms
 default['ntp']['is_server'] = false
-default['ntp']['servers']   = ["0.pool.ntp.org", "1.pool.ntp.org"]
+default['ntp']['servers']   = %w{ 0.pool.ntp.org 1.pool.ntp.org 2.pool.ntp.org 3.pool.ntp.org }
 default['ntp']['vardirs'] = %w{ /var/lib/ntp /var/log/ntp }
 default['ntp']['driftfile'] = "/var/lib/ntp/ntp.drift"
 default['ntp']['statsdir'] = "/var/log/ntpstats"
@@ -49,5 +49,5 @@ when "freebsd"
   default['ntp']['var_group'] = "wheel" 
 end
 
-default['ntp']['peers'] = []
-default['ntp']['restrictions'] = []
+default['ntp']['peers'] = Array.new
+default['ntp']['restrictions'] = Array.new

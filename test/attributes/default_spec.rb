@@ -16,6 +16,10 @@ describe 'Ntp::Attributes::Default' do
       { :platform => "default_os", :platform_version => '1.23' }
     end
 
+    it "sets a packages list" do
+      @node[attr_ns]['packages'].must_equal %w{ ntp ntpdate }
+    end
+
     it "sets the service name to ntp" do
       @node[attr_ns]['service'].must_equal "ntp"
     end
@@ -62,12 +66,11 @@ describe 'Ntp::Attributes::Default' do
       @node[attr_ns]['driftfile'].must_equal "/var/db/ntpd.drift"
     end
 
-    it "sets the drift file to ntpd.drift" do
+    it "sets the var directories to /var/db" do
       @node[attr_ns]['vardirs'].must_equal %w{ /var/db }
     end
 
-
-    it "sets the drift file to ntpd.drift" do
+    it "sets the stats directory to /var/db/ntpstats" do
       @node[attr_ns]['statsdir'].must_equal "/var/db/ntpstats"
     end
 
